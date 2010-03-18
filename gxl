@@ -1,0 +1,56 @@
+#!/bin/bash
+
+usage() {
+ cat <<EOF
+  shell interface to google translate
+
+  usage: $(basename $0) [-h] [-l] [-fLANGCODE] [-tLANGCODE] text
+
+         -h help
+         -l list available languages and codes
+         -f set FROM language (autodetect if not set)
+         -t set TO language (tries \$LANG ("${LANG%%_*}") if not set)
+EOF
+}
+
+getlangs() {
+ # get the list of language codes, crappily
+ curl -s -A "Mozilla/4.0" translate.google.com 2>&1 | awk -F"\"" -v RS="<" '
+  /value=".."/ && /option/ { a[$2] = substr($3,2) }
+  END {
+   printf ""
+   for( i in a ) {
+    printf "%s %-20s ", i, substr(a[i],1,20)
+    if( ++x%3 == 0 ) print ""
+   }
+   print ""
+  }
+ '
+}
+
+for x;do case $x in
+ -f*)FROM=${x#-f};;
+  -h)usage; exit;;
+  -l)getlangs; exit;;
+ -t*)TO=${x#-t};;
+   *)TXT="$TXT$x ";;
+esac;shift;done
+
+# accept from STDIN
+[ -t 0 ] || TXT="$(cat -)"
+
+[ "$TXT" ] || {
+ usage
+ exit
+}
+
+[ "$TO" ] || TO=${LANG%%_*}
+
+URL="http://ajax.googleapis.com/ajax/services/language/translate"
+L="langpair=$FROM%7C$TO"
+V="v=1.0"
+R=$(hostname)
+
+curl -sG -e "$R" -d "$V" -d "$L" --data-urlencode "q=$TXT" $URL | awk -F\" '
+ $4 == "translatedText" { print $6 }
+'
