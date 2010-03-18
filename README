@@ -1,8 +1,8 @@
   shell interface to google translate
 
-  usage: gxl [-h] [-l] [-fLANGCODE] [-tLANGCODE] text
+  usage: gxl [-h] [-l] [-iLANGCODE] [-oLANGCODE] text
 
          -h help
          -l list available languages and codes
-         -f set FROM language (autodetect if not set)
-         -t set TO language (tries $LANG ("en") if not set)
+         -i set IN language (autodetect if not set)
+         -o set OUT language (tries $LANG ("en") if not set)

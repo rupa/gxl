@@ -4,12 +4,12 @@ usage() {
  cat <<EOF
   shell interface to google translate
 
-  usage: $(basename $0) [-h] [-l] [-fLANGCODE] [-tLANGCODE] text
+  usage: $(basename $0) [-h] [-l] [-iLANGCODE] [-oLANGCODE] text
 
          -h help
          -l list available languages and codes
-         -f set FROM language (autodetect if not set)
-         -t set TO language (tries \$LANG ("${LANG%%_*}") if not set)
+         -i set IN language (autodetect if not set)
+         -o set OUT language (tries \$LANG ("${LANG%%_*}") if not set)
 EOF
 }
 
@@ -29,10 +29,10 @@ getlangs() {
 }
 
 for x;do case $x in
- -f*)FROM=${x#-f};;
+ -i*)FROM=${x#-i};;
   -h)usage; exit;;
   -l)getlangs; exit;;
- -t*)TO=${x#-t};;
+ -o*)TO=${x#-o};;
    *)TXT="$TXT$x ";;
 esac;shift;done
 
