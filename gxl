@@ -37,7 +37,7 @@ for x;do case $x in
 esac;shift;done
 
 # accept from STDIN
-[ -t 0 ] || TXT="$(cat -)"
+[ "$TXT" ] || [ -t 0 ] || TXT="$(cat -)"
 
 [ "$TXT" ] || {
  usage
