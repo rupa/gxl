@@ -1,8 +1,1 @@
-  shell interface to google translate
-
-  usage: gxl [-h] [-l] [-iLANGCODE] [-oLANGCODE] text
-
-         -h help
-         -l list available languages and codes
-         -i set IN language (autodetect if not set)
-         -o set OUT language (tries $LANG ("en") if not set)
+shell and python interfaces to google translate.

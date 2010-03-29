@@ -48,7 +48,7 @@ if __name__ == '__main__':
     from optparse import OptionParser
 
     usage = '''
-    shell interface to google translate
+    python interface to google translate
 
     glx [-i INLANG] [-o OUTLANG] STRING
     echo STRING | glx glx [-i INLANG] [-o OUTLANG]
